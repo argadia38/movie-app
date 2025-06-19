@@ -1,4 +1,3 @@
-
 services:
   # Layanan Aplikasi Laravel
   app:
@@ -26,6 +25,23 @@ services:
     networks:
       - movie-network
 
+  # Layanan Database PostgreSQL
+  db:
+    image: postgres:15
+    container_name: movie_app_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: movie_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - movie-network
+
 networks:
   movie-network:
     driver: bridge
+
+volumes:
+  pgdata:

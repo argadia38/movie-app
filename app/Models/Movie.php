@@ -33,7 +33,7 @@ class Movie extends Model
     protected $casts = [
         'download_links' => 'array',
         'stream_links' => 'array',
-        'is_featured' => 'boolean', // Pastikan is_featured di-cast sebagai boolean
+        'is_featured' => 'boolean',
     ];
 
     /**

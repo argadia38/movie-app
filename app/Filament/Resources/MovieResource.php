@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
 use Filament\Forms\Set;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Forms\Components\Checkbox;
 
 
 class MovieResource extends Resource
@@ -52,7 +53,11 @@ class MovieResource extends Resource
                     ->relationship('genres', 'name') // 'genres' is the relationship method name in Movie model
                     ->preload()
                     ->searchable(),
-                Toggle::make('is_featured')->label('Featured Movie?'),
+                Toggle::make('is_featured')
+                ->label('Featured Movie?')
+                ->default(false)
+                ->afterStateHydrated(fn (callable $set, $state) => $set('is_featured', (bool) $state))
+                ->dehydrateStateUsing(fn ($state) => filter_var($state, FILTER_VALIDATE_BOOLEAN)),
                 Repeater::make('download_links')
                     ->schema([
                         TextInput::make('server_name')->required()->label('Server (e.g., Google Drive)'),
