@@ -1,0 +1,18 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Salin file yang dibutuhkan untuk install dependensi
+COPY package*.json postcss.config.js tailwind.config.js ./
+
+# Install semua dependensi sesuai package.json
+RUN npm install
+
+# Salin seluruh source code (setelah install untuk efisiensi caching)
+COPY . .
+
+# Jalankan build statis Vite
+# RUN npm run build
+
+# Optional: bisa ganti CMD untuk dev mode
+CMD ["npm", "run", "dev"]
